@@ -2,15 +2,24 @@
 
 import Input from "@/components/Input";
 import axios from "axios";
-import { useCallback, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa'
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
  
 const Auth = () => {
     const router = useRouter()
+
+    const session = useSession()
+
+    useEffect(() => {
+        if(session?.status === 'authenticated'){
+            router.push('/profiles')
+        }
+    },[session?.status])
+
     const [username, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -33,23 +42,16 @@ const Auth = () => {
         }
     },[email, username, password])
 
-    const searchParams = useSearchParams();
-    const callbackUrl = searchParams.get("callbackUrl") || "/profile";
-
-    const login = useCallback(async() =>{
+    const login = useCallback(() =>{
         try{
-            // await axios.post('/api/auth/login',{
-            //     email,
-            //     password
-            // })
-            await signIn('credentials', {
+            signIn('credentials', {
                 email,
                 password,
                 redirect: false,
-                callbackUrl:'/'
-              })
-
-            router.push("/profile")
+            })
+            .then(() => router.push("/profiles"))
+            .catch(() => console.log("SomeThing went wrong"))
+            
         }catch(error){
             console.log(error)
         }
@@ -96,7 +98,9 @@ const Auth = () => {
                             {variant === 'login' ? "Login":"Sign Up"}
                         </button>
                         <div className="flex flex-row items-center justify-center gap-4 mt-8">
-                                <div className="
+                                <div 
+                                onClick={() => signIn('google', { callbackUrl: '/'}) }
+                                className="
                                     w-10
                                     h-10
                                     bg-white
@@ -110,7 +114,9 @@ const Auth = () => {
                                 ">
                                     <FcGoogle size={30} />
                                 </div>
-                                <div className="
+                                <div 
+                                onClick={() => signIn('github', { callbackUrl: '/'}) }
+                                className="
                                     w-10
                                     h-10
                                     bg-white
