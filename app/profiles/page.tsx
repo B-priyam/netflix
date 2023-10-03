@@ -23,6 +23,7 @@ const Profile = () => {
 
                     <div className="w-44 h-44 rounded-md flex items-center justify-center border-2 border-transparent group-hover:cursor-pointer group-hover:border-white overflow-hidden">
                         <img src="/images/default-blue.png" alt="" />
+                        
                     </div>
                 </div>
             </div>
