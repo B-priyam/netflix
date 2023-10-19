@@ -30,13 +30,15 @@ const Auth = () => {
         setVariant((currentVariant) => currentVariant === 'login' ? 'register' : 'login')
     },[])
 
-    const register = useCallback(async() =>{
+    const register = useCallback(() =>{
         try{
-            await axios.post('/api/auth',{
+            axios.post('/api/register',{
                 email,
                 username,
                 password
             })
+            .then(() => login())
+            .catch(() => console.log("SomeThing went wrong"))
         }catch(error){
             console.log(error)
         }

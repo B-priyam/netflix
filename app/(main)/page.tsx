@@ -1,5 +1,9 @@
 "use client";
 
+import BillBoard from "@/components/BillBoard";
+import MovieList from "@/components/MovieList";
+import Navbar from "@/components/Navbar";
+import useMovieList from "@/hooks/useMoviesList";
 import { NextPageContext } from "next";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -15,11 +19,15 @@ export default function Home() {
     }
   },[session?.status, router])
 
+  const { data: movies = [] } = useMovieList()
 
   return (
     <>
-      <h1 >Netflix Clone</h1>
-      <button onClick={() => {signOut();router.push('/auth')}} className="bg-red px-2 py-3">Logout</button>
+      <Navbar />
+      <BillBoard />
+      <div className="pb-40">
+        <MovieList title="Trending Now" data={movies} />
+      </div>
     </>
   )
 }
