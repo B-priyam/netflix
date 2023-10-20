@@ -4,10 +4,12 @@ import BillBoard from "@/components/BillBoard";
 import MovieList from "@/components/MovieList";
 import Navbar from "@/components/Navbar";
 import useMovieList from "@/hooks/useMoviesList";
-import { NextPageContext } from "next";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import useFavorites from "@/hooks/useFavorites";
+import InfoModal from "@/components/infoModal";
+import useInfoModal from "@/hooks/useInfoModal";
 
 export default function Home() {
 
@@ -20,13 +22,17 @@ export default function Home() {
   },[session?.status, router])
 
   const { data: movies = [] } = useMovieList()
+  const { data: favorities = [] } = useFavorites()
+  const { isOpen, closeModel } = useInfoModal()
 
   return (
     <>
+      <InfoModal visible={isOpen} onClose={closeModel} />
       <Navbar />
       <BillBoard />
       <div className="pb-40">
         <MovieList title="Trending Now" data={movies} />
+        <MovieList title="My Lists" data={favorities} />
       </div>
     </>
   )

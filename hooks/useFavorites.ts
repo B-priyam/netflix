@@ -1,8 +1,8 @@
 import fetcher from "@/lib/fetcher";
 import useSWR from "swr";
 
-const useBillBoard = () =>{
-    const { data, error , isLoading } = useSWR(`/api/movie`, fetcher, {
+const useFavorites = () =>{
+    const { data, error , isLoading, mutate } = useSWR('/api/favorites', fetcher, {
         revalidateIfStale:false,
         revalidateOnFocus: false,
         revalidateOnReconnect: false
@@ -11,8 +11,9 @@ const useBillBoard = () =>{
     return {
         data,
         error,
-        isLoading
+        isLoading,
+        mutate
     }
 }
 
-export default useBillBoard
+export default useFavorites

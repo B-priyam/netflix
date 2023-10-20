@@ -1,8 +1,8 @@
 import fetcher from "@/lib/fetcher";
 import useSWR from "swr";
 
-const useBillBoard = () =>{
-    const { data, error , isLoading } = useSWR(`/api/movie`, fetcher, {
+const useMovie = (movieId?: string) => {
+    const { data, error , isLoading } = useSWR(`/api/movie/${movieId}`, fetcher, {
         revalidateIfStale:false,
         revalidateOnFocus: false,
         revalidateOnReconnect: false
@@ -14,5 +14,5 @@ const useBillBoard = () =>{
         isLoading
     }
 }
-
-export default useBillBoard
+ 
+export default useMovie;

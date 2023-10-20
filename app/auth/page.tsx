@@ -18,7 +18,7 @@ const Auth = () => {
         if(session?.status === 'authenticated'){
             router.push('/profiles')
         }
-    },[session?.status])
+    },[ router, session?.status])
 
     const [username, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -29,20 +29,6 @@ const Auth = () => {
     const toggleVariant = useCallback(()=>{
         setVariant((currentVariant) => currentVariant === 'login' ? 'register' : 'login')
     },[])
-
-    const register = useCallback(() =>{
-        try{
-            axios.post('/api/register',{
-                email,
-                username,
-                password
-            })
-            .then(() => login())
-            .catch(() => console.log("SomeThing went wrong"))
-        }catch(error){
-            console.log(error)
-        }
-    },[email, username, password])
 
     const login = useCallback(() =>{
         try{
@@ -58,6 +44,21 @@ const Auth = () => {
             console.log(error)
         }
     },[email, password, router])
+    
+    const register = useCallback(() =>{
+        try{
+            axios.post('/api/register',{
+                email,
+                username,
+                password
+            })
+            .then(() => login())
+            .catch(() => console.log("SomeThing went wrong"))
+        }catch(error){
+            console.log(error)
+        }
+    },[login ,email, username, password])
+
 
 
     return ( 
