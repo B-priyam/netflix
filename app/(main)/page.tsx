@@ -8,8 +8,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import useFavorites from "@/hooks/useFavorites";
-import InfoModal from "@/components/infoModal";
 import useInfoModal from "@/hooks/useInfoModal";
+import InfoModal from "@/components/InfoModel2";
 
 export default function Home() {
 
